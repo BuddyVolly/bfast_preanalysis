@@ -7,9 +7,6 @@ The framework follows themain ideas from bfasts' countObs and summaryBrick funct
 
 Designed to run inside [sepal](https://sepal.io) 
 
-SEPAL version of the [GEE script by A. Vollrath](https://code.earthengine.google.com/3784ea8db0b93bcaa41d1a3ada0c055e)
-
-
 ## Inputs
 
 - AOI
