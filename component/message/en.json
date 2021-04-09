@@ -1,0 +1,81 @@
+{
+    "not_translated": "this message only exist in the en dict",
+    "app": {
+        "title": "BFAST pre-analysis",
+        "footer": "SEPAL \u00A9 {}",
+        "drawer_item": {
+            "aoi": "Area of interest",
+            "process": "Selection",
+            "visualization": "Visualization",
+            "export": "Export",
+            "about": "About"
+        }
+    },
+    "process": {
+        "small_slider":    "{} is not big enough, please provide a value > to 50",
+        "end_computation": "Computation complete",
+        "alos_mosaic":     "ALOS mosaic",
+        "slider":          "Select Year",
+        "filter":          "Select a Speckle filter",
+        "ls_mask":         "Apply Layover/Shadow mask",
+        "dB":              "Scale output to dB scale ",
+        "textfield":       "GEE Asset Basename",
+        "process":         "Click & Go",
+        "title":           "Process tile",
+        "no_aoi":          "Please provide an AOI",
+        "no_slider":       "Please provide a year for the mosaic",
+        "no_textfield":    "Please provide a basename for the GEE Asset",
+        "gee_btn":         "Generate EE Asset",
+        "task_start":      "Task launched in GEE",
+        "task_launched":   "Export of {} launched in GEE"
+    },
+    "visualization": {
+        "title": "Visualize results",
+        "layer": "Cloud-free pixels"
+    },
+    "selection": {
+        "title": "Parameter selection",
+        "l8": "Landsat 8",
+        "l7": "Landsat 7",
+        "l5": "Landsat 5",
+        "l4": "Landsat 4",
+        "t2": "Include Tier 2 products for selected Landsat satellites",
+        "s2_toa": "Sentinel-2 TOA",
+        "s2_sr": "Sentinel-2 SR",
+        "measure": "Statistical measure",
+        "annual": "Annual statistics"
+    },
+    "export": {
+        "title": "Export data",
+        "no_result": "No result to display yet",
+        "backscatter": "Export Backscatter (HH, HV, HH/HV power ratio)",
+        "rfdi": "Export/Add Radar Forest Degradation Index (RFDI, Mitchard et al. 2012)",
+        "texture": "Export/Add GLCM texture layers for HH and HV polarizations (Variance,  Homogeneity, Dissimilarity)",
+        "aux": "Export/Add auxiliary metadata layers (Acq. Date, LIA, QA layer)",
+        "fnf": "Export K&C Forest/Non-Forest map (separate file)",
+        "scale": "Resolution in meters (applies to all layers, minimum 25)",
+        "asset_btn": "Export to asset",
+        "sepal_btn": "Export to sepal",
+        "down_btn": "Download tif file",
+        "file_exist": "The file {} already exist in your sepal folder"
+    },
+    "download": {
+        "merge_tile": "Merging the tile from Gdrive",
+        "completed": "Download completed",
+        "file_exist": "The file {} is already available on your computer",
+        "start_download": "Start the exportation of your map",
+        "remove_gdrive": "Remove the files from your Gdrive folder"
+    },
+     "gdrive": {
+        "already_done" : "{} was already completed",
+        "error": {
+            "no_file": "The files are not available in your Gdrive"
+        }
+    },
+    "gee": {
+        "status": "Status: {}",
+        "tasks_completed": "GEE task are completed",
+        "add_layer": "Loading the layer ({}) on the map",
+        "asset_exist": "The asset {} already exist in you Google account"
+    }
+}
