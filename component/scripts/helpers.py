@@ -1,19 +1,6 @@
 import ee
 ee.Initialize()
-from .cloud_masking import cloudMaskLsat
-
-
-EPOCH = ee.Date('1970-01-01')
-
-def add_date(image):
-    mask = image.mask().reduce(ee.Reducer.min())
-    days = image.date().difference(EPOCH, 'day')
-    return (
-        ee.Image.constant(days).int()
-          .clip(image.geometry())
-          .updateMask(mask)
-          .copyProperties(image, ["system:time_start"])
-    )
+from .cloud_masking import cloudMaskLsatTOA, cloudMaskLsatSR 
 
 def addNDVIL8(image): 
     return image.addBands(image.normalizedDifference(['B5', 'B4']).rename('NDVI'))
@@ -24,7 +11,8 @@ def addNDVILsat(image):
 def addNDVIS2(image): 
     return image.addBands(image.normalizedDifference(['B8', 'B4']).rename('NDVI'))
 
-def create_collection(collection, t2, start, end, aoi):
+def create_collection(collection, t2, start, end, aoi, sr):
+    
     coll = (
         collection
             .filterBounds(aoi)
@@ -34,7 +22,8 @@ def create_collection(collection, t2, start, end, aoi):
 
     if t2:
         coll_name = coll.get('system:id').getInfo()
-        coll_t2 = coll_name[:-5] + 'T2_SR'
+        
+        coll_t2 = coll_name.replace("/T1_", "/T2_")
 
         coll = coll.merge(
             ee.ImageCollection(coll_t2)
@@ -42,4 +31,7 @@ def create_collection(collection, t2, start, end, aoi):
                 .filterDate(start, end)
         )
 
-    return coll.map(cloudMaskLsat)
+    if sr:
+        return coll.map(cloudMaskLsatSR)
+    else:
+        return coll.map(cloudMaskLsatTOA)

@@ -40,8 +40,8 @@ class VisualizationTile(sw.Tile):
         aoi = self.aoi_io.get_aoi_ee()
         
         if self.io.measure == 'pixel_count':
-            reducer = ee.Reducer.countDistinctNonNull()
-            coll = coll.map(add_date)
+            reducer = ee.Reducer.count()
+            coll = coll.select('B3')
             viz = pm.visParamCount
 
         elif self.io.measure == 'ndvi_median':

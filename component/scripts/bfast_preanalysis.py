@@ -10,26 +10,27 @@ from component.message import ms
 from component import parameter as pm
 
 from .helpers import *
-from .cloud_masking import *
+from .cloud_masking import cloud_mask_S2
 
 ee.Initialize()
 
-def analysis(aoi, start, end, l8, l7, l5, l4, t2, s2_toa, output):
+def analysis(aoi, start, end, l8, l7, l5, l4, t2, s2, sr, output):
     
     coll = None
+    coll_type = 'SR' if sr else 'TOA'
     
     if l8:
 
         # create collection (with masking) and add NDVI 
         coll = create_collection(
-            ee.ImageCollection("LANDSAT/LC08/C01/T1_SR"), t2, start, end, aoi
+            ee.ImageCollection(f"LANDSAT/LC08/C01/T1_{coll_type}"), t2, start, end, aoi, sr
         ).map(addNDVIL8)
 
     if l7:
-
+        
         # create collection (with masking) and add NDVI 
         l7_coll = create_collection(
-            ee.ImageCollection("LANDSAT/LC08/C01/T1_SR"), t2, start, end, aoi
+            ee.ImageCollection(f"LANDSAT/LE07/C01/T1_{coll_type}"), t2, start, end, aoi, sr
         ).map(addNDVILsat)
         
         # merge collection
@@ -40,7 +41,7 @@ def analysis(aoi, start, end, l8, l7, l5, l4, t2, s2_toa, output):
 
         # create collection (with masking) and add NDVI 
         l5_coll = create_collection(
-            ee.ImageCollection("LANDSAT/LC08/C01/T1_SR"), t2, start, end, aoi
+            ee.ImageCollection(f"LANDSAT/LT05/C01/T1_{coll_type}"), t2, start, end, aoi, sr
         ).map(addNDVILsat)
         
         # merge collection
@@ -51,34 +52,46 @@ def analysis(aoi, start, end, l8, l7, l5, l4, t2, s2_toa, output):
 
         # create collection (with masking) and add NDVI 
         l4_coll = create_collection(
-            ee.ImageCollection("LANDSAT/LC08/C01/T1_SR"), t2, start, end, aoi
+            ee.ImageCollection(f"LANDSAT/LT04/C01/T1_{coll_type}"), t2, start, end, aoi, sr
         ).map(addNDVILsat)
         
         # merge collection
         coll = coll.merge(l4_coll) if coll else l4_coll
-
-    #if s2_sr:
-#
-    #    s2_sr_cld_col_eval = get_s2_sr_cld_col(aoi, start, end)
-    #    s2_sr_coll = (
-    #        s2_sr_cld_col_eval
-    #            .map(add_cld_shdw_mask)
-    #            .map(addDate)
-    #    )
-#
-    #    
-    #    dummy_coll = dummy_coll.merge(s2_sr_coll)
-    #    dummy_coll = dummy_coll.filter(ee.Filter.gt('system:time', 1)) 
-#
-    if s2_toa:
-
+    
+    if s2:
+        
+        # define collection name based on SR or TOA
+        
+        s2_coll_name = 'S2_SR' if sr else 'S2'
+        
+        # Import and filter S2 SR.
         s2_coll = (
-            ee.ImageCollection("COPERNICUS/S2")
+            ee.ImageCollection(f'COPERNICUS/{s2_coll_name}')
                 .filterBounds(aoi)
                 .filterDate(start, end)
-                .map(cloudMaskS2)
-                .map(addNDVIS2)
         )
+            
+
+        # Import and filter s2cloudless.
+        s2_cloudless_coll = (
+            ee.ImageCollection('COPERNICUS/S2_CLOUD_PROBABILITY')
+                .filterBounds(aoi)
+                .filterDate(start, end)
+        )
+            
+                  
+        # Join the filtered s2cloudless collection to the SR collection by the 'system:index' property.
+        joined_coll = ee.ImageCollection(ee.Join.saveFirst('s2cloudless').apply(**{
+        'primary': s2_coll,
+        'secondary': s2_cloudless_coll,
+        'condition': ee.Filter.equals(**{
+            'leftField': 'system:index',
+            'rightField': 'system:index'
+            })
+        }))
+        
+        s2_coll = joined_coll.map(cloud_mask_S2) if sr else joined_coll.map(cloud_mask_S2)
+        s2_coll = s2_coll.map(addNDVIS2)
         
         # merge collection
         coll = coll.merge(s2_coll) if coll else s2_coll

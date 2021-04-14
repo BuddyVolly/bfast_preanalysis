@@ -20,6 +20,12 @@ select = """
 Select the satellite(s) you want to include for the pre-analysis.
 """
 
+sr = """
+### Selection of collection type
+
+Choose between Surface Reflectance or Top-of-Atmosphere collections for the slected satellites.
+"""
+
 stats = """  
 ### Selection of statistics
 

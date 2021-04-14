@@ -40,8 +40,8 @@
         "l5": "Landsat 5",
         "l4": "Landsat 4",
         "t2": "Include Tier 2 products for selected Landsat satellites",
-        "s2_toa": "Sentinel-2 TOA",
-        "s2_sr": "Sentinel-2 SR",
+        "s2": "Sentinel-2",
+        "sr": "Surface Reflectance Collection",
         "measure": "Statistical measure",
         "annual": "Annual statistics"
     },

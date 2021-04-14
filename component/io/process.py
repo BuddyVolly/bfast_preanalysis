@@ -14,8 +14,8 @@ class Process:
         self.l5 = False
         self.l4 = False
         self.t2 = False
-        self.s2_toa = False
-        self.s2_sr = False
+        self.s2 = False
+        self.sr = False
         self.measure = 'pixel_count'
         self.annual = False
         

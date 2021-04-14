@@ -60,15 +60,16 @@ class SelectionTile(sw.Tile):
             )
 
         
-        self.s2_toa = v.Switch(
+        self.s2 = v.Switch(
                 class_  = "ml-5",
-                label   = ms.selection.s2_toa,
+                label   = ms.selection.s2,
                 v_model = False
             )
 
-        self.s2_sr = v.Switch(
+        self.sr_mess = sw.Markdown(pm.sr)
+        self.sr = v.Switch(
                 class_  = "ml-5",
-                label   = ms.selection.s2_sr,
+                label   = ms.selection.sr,
                 v_model = False
             )
         
@@ -99,10 +100,11 @@ class SelectionTile(sw.Tile):
             .bind(self.l5, self.io, 'l5') \
             .bind(self.l4, self.io, 'l4') \
             .bind(self.t2, self.io, 't2') \
-            .bind(self.s2_toa, self.io, 's2_toa') \
+            .bind(self.s2, self.io, 's2') \
+            .bind(self.sr, self.io, 'sr') \
             .bind(self.measure, self.io, 'measure') \
             .bind(self.annual, self.io, 'annual')
-            #.bind(self.s2_sr, self.io, 's2_sr') \
+            
             
         # to launch the process you'll need a btn 
         # here it is as a special sw widget (the message and the icon can also be customized see sepal_ui widget doc)
@@ -113,8 +115,8 @@ class SelectionTile(sw.Tile):
             id_    = "selection_widget", # the id will be used to make the Tile appear and disapear
             title  = ms.selection.title, # the Title will be displayed on the top of the tile
             inputs = [self.start, self.start_picker, self.end, self.end_picker, 
-                      self.select, self.l8, self.l7, self.l5, self.l4, self.t2, self.s2_toa, #, self.s2_sr, 
-                      self.stats, self.measure, self.annual],
+                      self.select, self.l8, self.l7, self.l5, self.l4, self.t2, self.s2,
+                      self.sr_mess, self.sr, self.stats, self.measure, self.annual],
             btn    = self.btn,
             output = self.output
         )
@@ -145,7 +147,8 @@ class SelectionTile(sw.Tile):
                 self.io.l5,
                 self.io.l4,
                 self.io.t2,
-                self.io.s2_toa,
+                self.io.s2,
+                self.io.sr,
                 self.output
             )
             
