@@ -1,5 +1,10 @@
-# possible years to select from
-years = [2007, 2008, 2009, 2010, 2015, 2016, 2017]
+#measures = ['pixel_count', 'ndvi_median', 'ndvi_stdDev']
+
+measures = [
+    {'text': 'Cloud-free pixel count', 'value': 'pixel_count'},
+    {'text': 'NDVI Median', 'value': 'ndvi_median'},
+    {'text': 'NDVI Std. Dev.', 'value': 'ndvi_stdDev'}
+]
 
 # speckle filters to select from
 speckle_filters = [
@@ -19,30 +24,27 @@ layer_select = [
 def asset_name(aoi_io, io, fnf=False):
     """return the standard name of your asset/file"""
     
-    if fnf: 
-    
-        filename = f"kc_fnf_{aoi_io.get_aoi_name()}_{io.year}"    
-    
+
+    filename = f"bfast_coverage_{aoi_io.get_aoi_name()}_{io.start}_{io.end}"
+
+    if io.l8 != 'NONE':
+        filename += f"_L8"
+
+    if io.l7:
+        filename += '_L7'
+
+    if io.l5:
+        filename += '_L5'
+
+    if io.l4:
+        filename += '_L4'
+
+    if io.s2:
+        filename += '_S2'
+
+    if io.sr:
+        filename += '_SR'
     else:
+        filename += '_TOA'
         
-        filename = f"alos_mosaic_{aoi_io.get_aoi_name()}_{io.year}"
-
-        if io.filter != 'NONE':
-            filename += f"_{io.filter.lower()}"
-
-        if io.rfdi:
-            filename += '_rfdi'
-
-        if io.ls_mask:
-            filename += '_masked'
-
-        if io.dB:
-            filename += '_dB'
-            
-        if io.texture:
-            filename += '_texture'
-            
-        if io.aux:
-            filename += '_aux'
-
     return filename

@@ -11,12 +11,13 @@ from component import parameter as pm
 # create an empty result tile that will be filled with displayable plot, map, links, text
 class SelectionTile(sw.Tile):
     
-    def __init__(self, aoi_io, io, viz_tile, **kwargs):
+    def __init__(self, aoi_io, io, viz_tile, export_tile, **kwargs):
         
         # gather the io
         self.aoi_io = aoi_io
         self.io = io
         self.viz_tile = viz_tile
+        self.export_tile = export_tile
         
         # create an output alert 
         self.output = sw.Alert()
@@ -149,7 +150,7 @@ class SelectionTile(sw.Tile):
                 self.io.t2,
                 self.io.s2,
                 self.io.sr,
-                self.output
+                #self.output
             )
             
             # change the io values as its a mutable object 
@@ -157,14 +158,14 @@ class SelectionTile(sw.Tile):
             self.io.dataset = dataset
 
             # release the export btn
-            #self.export_tile.asset_btn.disabled = False
-            #self.export_tile.sepal_btn.disabled = False
+            self.export_tile.asset_btn.disabled = False
+            self.export_tile.sepal_btn.disabled = False
 
-            # conclude the computation with a message
-            self.output.add_live_msg(ms.process.end_computation, 'success')
-            
             # launch vizualisation
             self.viz_tile._on_change(None)
+            
+            # conclude the computation with a message
+            self.output.add_live_msg(ms.process.end_computation, 'success')
             
         except Exception as e: 
             self.output.add_live_msg(str(e), 'error')

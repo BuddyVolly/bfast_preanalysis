@@ -1,16 +1,17 @@
-visParamdB = {
-    'bands': ['HH', 'HV', 'HHHV_ratio'], 
-    'min': [-20, -25, 1], 
-    'max': [0, -5, 15], 
-    'gamma': 1.1}
+visParamNDVIMean = {
+    'min': 0,
+    'max': 1,
+    'palette': ['white', 'brown', 'orange', 'lightgreen', 'green', 'darkgreen']
+}
 
+visParamNDVIStdDev = {
+    'min': 0,
+    'max': 1,
+    'palette': ['white','orange', 'red', 'brown']
+}
 
-visParamPow = {
-    'bands': ['HH', 'HV', 'HHHV_ratio'], 
-    'min': [0, 0, 1], 
-    'max': [0.5, 0.15, 15], 
-    'gamma': 1.1}
-
-visParamRFDI = {'min':0.25, 'max':1, 'palette':['#105e1e', '#fffa6c']}
-
-visParamFNF = {'min':1, 'max':3, 'palette':['#006400', '#FEFF99', '#0000FF']}
+visParamCount = {
+    'min': 0,
+    'max': 100,
+    'palette': ['purple', 'red', 'orange', 'white', 'lightgreen', 'green', 'darkgreen']
+}

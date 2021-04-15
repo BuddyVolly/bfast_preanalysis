@@ -14,7 +14,7 @@ from .cloud_masking import cloud_mask_S2
 
 ee.Initialize()
 
-def analysis(aoi, start, end, l8, l7, l5, l4, t2, s2, sr, output):
+def analysis(aoi, start, end, l8, l7, l5, l4, t2, s2, sr):
     
     coll = None
     coll_type = 'SR' if sr else 'TOA'
@@ -98,6 +98,6 @@ def analysis(aoi, start, end, l8, l7, l5, l4, t2, s2, sr, output):
         
  
      # let the user know that you managed to do something
-    output.add_live_msg(ms.process.end_computation, 'success')
+    #output.add_live_msg(ms.process.end_computation, 'success')
     
     return coll

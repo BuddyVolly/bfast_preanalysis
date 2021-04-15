@@ -34,6 +34,7 @@ def display_result(ee_aoi, dataset, m, vis, measure, annual):
     
     for year in sorted(dataset.keys()):
         label = year[:4] if annual else 'total'
+        #if dataset[year].reduceRegion(ee.Reducer.max(), ee_aoi.geometry(), 5000).getInfo():
         m.addLayer(dataset[year], vis, f'{measure} {label}')
     
     m.add_colorbar(colors=vis['palette'], vmin=vis['min'], vmax=vis['max'], layer_name="Colorbar")

@@ -19,6 +19,14 @@ class Process:
         self.measure = 'pixel_count'
         self.annual = False
         
+        # exports 
+        self.count = True
+        self.ndvi_median = False
+        self.ndvi_stdDev = False
+        self.annual_exp = False
+        self.total_exp = False
+        self.scale = 30
+        
         # set up your outputs
         self.asset_id = None
         self.dataset  = None
